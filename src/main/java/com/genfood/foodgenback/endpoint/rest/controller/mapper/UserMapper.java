@@ -13,9 +13,9 @@ public class UserMapper {
     private final UserService userService;
 
     public User ToRestUser(UserEntity userEntity){
-        User user = userService.getByMail(userEntity.getMail());
+
         return User.builder()
-                .id(user.getId())
+                .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .firstname(userEntity.getFirstname())
                 .lastname(userEntity.getLastname())
