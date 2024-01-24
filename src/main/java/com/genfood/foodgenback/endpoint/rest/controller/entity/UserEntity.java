@@ -14,6 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
+    private Long id;
     private String username;
     private String firstname;
     private String lastname;
