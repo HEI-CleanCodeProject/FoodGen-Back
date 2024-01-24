@@ -16,14 +16,15 @@ public class UserService {
     return repository.findByUsername(userName);
   }
 
-  // public User getByUserId(Long id){
-  //    return repository.getById(id);
-  // }
   public User saveUser(User user) {
     return repository.save(user);
   }
 
   public User getUserByEmail(String email) {
     return repository.findByEmail(email).orElse(null);
+  }
+
+  public User getByUserId(String id){
+    return repository.getById(id);
   }
 }
