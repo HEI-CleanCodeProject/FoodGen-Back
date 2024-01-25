@@ -1,13 +1,8 @@
 package com.genfood.foodgenback.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import com.genfood.foodgenback.endpoint.rest.model.Role;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +27,8 @@ public class User {
     private String lastname;
 
     @Column(unique=true)
-    private String mail;
+    private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
