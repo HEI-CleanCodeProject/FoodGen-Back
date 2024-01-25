@@ -17,7 +17,7 @@ public class MailValidator implements Consumer <User>{
     private  final UserRepository userRepository;
     @Override
     public void accept(User user) {
-        boolean alreadyexist = userRepository.existsByMail(user.getMail());
+        boolean alreadyexist = userRepository.existsByEmail(user.getEmail());
         Set<String> violationMessages = new HashSet<>();
         if (alreadyexist) {
             violationMessages.add("Mail address already taken,try other");
