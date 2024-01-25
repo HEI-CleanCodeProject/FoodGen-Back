@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserService {
-    private final UserRepository userRepository;
+    private final UserRepository repository;
 
     public User getUserByName(String userName){
-        return userRepository.findByUsername(userName);
+        return repository.findByUsername(userName);
     }
 
     // public User getByUserId(Long id){
-    //    return userRepository.getById(id);
+    //    return repository.getById(id);
     // }
     public User saveUser(User user){
-        return userRepository.save(user);
+        return repository.save(user);
     }
-    public User getByMail(String mail){
-        return userRepository.findByMail(mail);
+    public User getUserByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 
 }
