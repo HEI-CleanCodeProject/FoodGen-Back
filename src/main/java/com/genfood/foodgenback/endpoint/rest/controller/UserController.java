@@ -1,7 +1,6 @@
 package com.genfood.foodgenback.endpoint.rest.controller;
 
-import com.genfood.foodgenback.endpoint.rest.controller.entity.UserEntity;
-import com.genfood.foodgenback.endpoint.rest.controller.mapper.UserMapper;
+import com.genfood.foodgenback.endpoint.rest.controller.validator.MailValidator;
 import com.genfood.foodgenback.model.User;
 import com.genfood.foodgenback.service.UserService;
 import lombok.AllArgsConstructor;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
-
+    private final MailValidator mailValidator;
 
     @PutMapping("/user")
-    public User Save(@RequestBody UserEntity userEntity){
-        return userService.saveUser(userMapper.ToRestUser(userEntity));
+    public User Save(@RequestBody User userEntity){
+        mailValidator.accept(userEntity);
+        return userService.saveUser(userEntity);
     }
 
     @GetMapping("/user/{username}")
