@@ -16,9 +16,10 @@ public class UserService {
     public User getUserByName(String userName){
         return userRepository.findByUsername(userName);
     }
-    public User getByUserId(Long id){
-        return userRepository.getById(id);
-    }
+
+    // public User getByUserId(Long id){
+    //    return userRepository.getById(id);
+    // }
     public User saveUser(User user){
         return userRepository.save(user);
     }
