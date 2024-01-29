@@ -22,19 +22,21 @@ import java.util.Objects;
 public class JWTFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER_PREFIX = "Bearer ";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(AUTHORIZATION_HEADER);
         String token = null;
         String email = null;
-        if (!Objects.isNull(authHeader) && authHeader.startsWith("Bearer ")) {
+        if (!Objects.isNull(authHeader) && authHeader.startsWith(BEARER_PREFIX)) {
             token = authHeader.substring(7);
             email = jwtService.extractEmail(token);
         }
 
-        // for sign up and sign in
+        // allow sign up and sign in to process even without jwt
         if (Objects.isNull(token)) {
             filterChain.doFilter(request, response);
             return;
