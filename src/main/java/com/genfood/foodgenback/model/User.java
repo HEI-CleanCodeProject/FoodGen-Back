@@ -1,6 +1,5 @@
 package com.genfood.foodgenback.model;
 
-
 import com.genfood.foodgenback.endpoint.rest.model.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,16 +18,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
-    private String firstname;
-    private String lastname;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(unique=true)
-    private String email;
-    private String password;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+  private String username;
+  private String firstname;
+  private String lastname;
+
+  @Column(unique = true)
+  private String email;
+
+  private String password;
+
+  @Enumerated(EnumType.STRING)
+  private Role role;
 }

@@ -1,6 +1,5 @@
 package com.genfood.foodgenback.service;
 
-
 import com.genfood.foodgenback.model.User;
 import com.genfood.foodgenback.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -11,20 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserService {
-    private final UserRepository repository;
+  private final UserRepository repository;
 
-    public User getUserByUsername(String userName){
-        return repository.findByUsername(userName);
-    }
+  public User getUserByUsername(String userName) {
+    return repository.findByUsername(userName);
+  }
 
-    // public User getByUserId(Long id){
-    //    return repository.getById(id);
-    // }
-    public User saveUser(User user){
-        return repository.save(user);
-    }
-    public User getUserByEmail(String email) {
-        return repository.findByEmail(email).orElse(null);
-    }
+  // public User getByUserId(Long id){
+  //    return repository.getById(id);
+  // }
+  public User saveUser(User user) {
+    return repository.save(user);
+  }
 
+  public User getUserByEmail(String email) {
+    return repository.findByEmail(email).orElse(null);
+  }
 }

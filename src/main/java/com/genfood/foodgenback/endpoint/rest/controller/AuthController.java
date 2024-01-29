@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class AuthController {
-    private final AuthService service;
+  private final AuthService service;
 
-    @PostMapping("/signup")
-    public LoggedUser signUp(@RequestBody SignUpRequest userSignUp) {
-        return service.signUp(userSignUp);
-    }
+  @PostMapping("/signup")
+  public LoggedUser signUp(@RequestBody SignUpRequest userSignUp) {
+    return service.signUp(userSignUp);
+  }
 
-    @PostMapping("/signin")
-    public LoggedUser signIn(@RequestBody SignInRequest userSignIn) {
-        return service.signIn(userSignIn);
-    }
+  @PostMapping("/signin")
+  public LoggedUser signIn(@RequestBody SignInRequest userSignIn) {
+    return service.signIn(userSignIn);
+  }
 }
