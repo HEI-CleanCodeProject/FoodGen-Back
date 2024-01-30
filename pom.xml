@@ -51,6 +51,11 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.12.4</version>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -74,6 +79,17 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.19.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -110,7 +126,6 @@
                     <failOnViolation>true</failOnViolation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <logViolationsToConsole>true</logViolationsToConsole>
-                    <format>html</format>
                     <excludes>
                         com/omernaci/checkstyleexample/CheckstyleExampleApplication.java
                     </excludes>
