@@ -61,8 +61,8 @@ paths:
         '500':
           $ref: '#/components/responses/500'
 
-  '/singIn':
-    put:
+  '/login':
+    post:
       tags:
         - Auth
       summary: Logs user into the system
@@ -72,7 +72,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SignUpRequest'
+              $ref: '#/components/schemas/SignInRequest'
       responses:
         '200':
           description: User created and authenticated
@@ -87,7 +87,7 @@ paths:
         '500':
           description: Server error
   '/signup':
-    put:
+    post:
       tags:
         - Auth
       summary: Sign up a user
@@ -277,7 +277,6 @@ components:
           format: uuid
         username:
           type: string
-          example: "user_one"
         role:
           type: string
         email:
@@ -296,7 +295,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/SignInRequest'
       properties:
-        username:
+        email:
           type: string
     UserPayload:
       type: object
