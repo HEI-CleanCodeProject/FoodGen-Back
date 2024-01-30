@@ -41,7 +41,7 @@ public class SecurityConf {
             auth ->
                 auth.requestMatchers(HttpMethod.POST, "/signup/**")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/signin/**")
+                    .requestMatchers(HttpMethod.POST, "/login/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
