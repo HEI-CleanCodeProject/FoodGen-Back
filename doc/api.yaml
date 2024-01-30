@@ -60,46 +60,57 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  '/users/login':
-    post:
+
+  '/singIn':
+    put:
       tags:
-        - User
-      summary: Let user log in the application
-      operationId: login
+        - Auth
+      summary: Logs user into the system
+      operationId: signIn
       requestBody:
-        description: send user credentials to the server
+        description: User to sign up
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserPayload'
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
         '200':
-          description: Logged in
+          description: User created and authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
         '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
+          description: Invalid username/password supplied
         '404':
-          $ref: '#/components/responses/404'
+          description: Ressource not found
         '500':
-          $ref: '#/components/responses/500'
-  '/users/logout':
-    get:
+          description: Server error
+  '/signup':
+    put:
       tags:
-        - User
-      summary: Logs out current logged in user
-      operationId: logout
+        - Auth
+      summary: Sign up a user
+      operationId: signUp
+      requestBody:
+        description: User to sign up
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
         '200':
-          description: Logging out
+          description: User created and authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggedUser'
         '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
+          description: Invalid username/password supplied
         '404':
-          $ref: '#/components/responses/404'
+          description: Ressource not found
         '500':
-          $ref: '#/components/responses/500'
+          description: Server error
   '/users/{username}':
     get:
       tags:
@@ -257,6 +268,35 @@ components:
           type: string
           example: rio@email.com
         password:
+          type: string
+    LoggedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        username:
+          type: string
+          example: "user_one"
+        role:
+          type: string
+        email:
+          type: string
+          example: rio@email.com
+        token:
+          type: string
+    SignInRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    SignUpRequest:
+      allOf:
+        - $ref: '#/components/schemas/SignInRequest'
+      properties:
+        username:
           type: string
     UserPayload:
       type: object

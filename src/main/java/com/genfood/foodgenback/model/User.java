@@ -20,10 +20,14 @@ import lombok.ToString;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
 
   private String username;
+
+  @Column(name = "first_name")
   private String firstname;
+
+  @Column(name = "last_name")
   private String lastname;
 
   @Column(unique = true)
