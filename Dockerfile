@@ -1,17 +1,14 @@
-FROM maven:3.8.4-openjdk-11 AS builder
+FROM maven:3.8.5-openjdk-17 as builder
 WORKDIR /app
 COPY pom.xml .
-RUN mvn -B dependency:resolve-dependencies
-COPY src ./src
-FROM maven:3.8.4-openjdk-17 AS builder
-WORKDIR /app
-COPY pom.xml .
-RUN mvn -B dependency:resolve-dependencies
-COPY src ./src
-RUN mvn package -DskipTests
-FROM adoptopenjdk:17-jre-hotspot
-WORKDIR /app
-COPY --from=builder /app/target/food-gen-back 0.0.1-SNAPSHOT.jar .
-EXPOSE 8080
-CMD ["java", "-jar", "food-gen-back 0.0.1-SNAPSHOT.jar"]
+RUN mvn dependency:go-offline
+COPY src/ ./src/
+RUN mvn clean package -DskipTests=true
 
+FROM eclipse-temurin:17-jdk-alpine as prod
+RUN mkdir /app
+COPY --from=builder /app/target/*.jar /app/app.jar
+ENV SERVER_PORT=6060
+WORKDIR /app
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]
