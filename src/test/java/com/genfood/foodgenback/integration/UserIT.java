@@ -28,7 +28,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 @Slf4j
-// TODO: test and fix if it doesn't work
 public class UserIT extends FacadeIT {
   UserController userController;
   UserService userService;
@@ -45,14 +44,13 @@ public class UserIT extends FacadeIT {
 
   @Autowired JWTService jwtService;
 
-  @BeforeEach
-  void setUp() {
-    userService = new UserService(userRepository, mailValidator);
-    userDetailsService = new UserDetailsServiceImpl(userService);
-    authService = new AuthService(userService, userDetailsService, jwtService, passwordEncoder);
-    userController = new UserController(userMapper, userService, authService);
-  }
-
+    @BeforeEach
+    void setUp() {
+        userService = new UserService(userRepository, mailValidator);
+        userDetailsService = new UserDetailsServiceImpl(userService);
+        authService = new AuthService(userService, userDetailsService, jwtService, passwordEncoder);
+        userController = new UserController(userMapper, userService,  authService);
+    }
   @Test
   void read_user_by_id() {
     User actual = userController.getByUserName(USER1_USERNAME);
