@@ -1,9 +1,5 @@
 package com.genfood.foodgenback.integration;
 
-import static com.genfood.foodgenback.utils.MealUtils.MEAL1_ID;
-import static com.genfood.foodgenback.utils.MealUtils.meal1;
-import static com.genfood.foodgenback.utils.MealUtils.meal2;
-import static com.genfood.foodgenback.utils.MealUtils.meal3;
 import com.genfood.foodgenback.conf.FacadeIT;
 import com.genfood.foodgenback.endpoint.controller.MealController;
 import com.genfood.foodgenback.endpoint.rest.mapper.MealMapper;
@@ -21,10 +17,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import java.util.List;
+import static com.genfood.foodgenback.utils.MealUtils.MEAL1_ID;
+import static com.genfood.foodgenback.utils.MealUtils.meal1;
+import static com.genfood.foodgenback.utils.MealUtils.meal8;
+import static com.genfood.foodgenback.utils.MealUtils.meal9;
 
 @Testcontainers
 @Slf4j
 public class MealIT extends FacadeIT {
+  public static final int PAGE = 0;
+  public static final int PAGE_SIZE = 5;
   MealController mealController;
   MealService mealService;
   RecipeIngredientService recipeIngredientService;
@@ -62,4 +65,15 @@ public class MealIT extends FacadeIT {
     Meal actual = mealController.getMealById(MEAL1_ID);
     Assertions.assertEquals(meal1(), actual);
   }
+
+  @Test
+  void read_meal_ordered() {
+    List<Meal> actual = mealController.getMealsOrdered(PAGE,PAGE_SIZE);
+    Assertions.assertEquals(5, actual.size());
+    Assertions.assertEquals(actual.get(0), meal1());
+    Assertions.assertEquals(actual.get(1), meal9());
+    Assertions.assertEquals(actual.get(2), meal8());
+
+  }
+
 }
