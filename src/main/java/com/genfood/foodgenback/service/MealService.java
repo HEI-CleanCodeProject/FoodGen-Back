@@ -28,7 +28,7 @@ public class MealService {
     return mealRepository.findById(id).get();
   }
 
-  public List<Meal> getMealByRating(Integer page, Integer pageSize){
+  public List<Meal> getMealByRating(Integer page, Integer pageSize) {
     Pageable pageable = PageRequest.of(page, pageSize);
     return mealRepository.findAllOrderByDownload(pageable);
   }

@@ -1,5 +1,10 @@
 package com.genfood.foodgenback.integration;
 
+import static com.genfood.foodgenback.utils.MealUtils.MEAL1_ID;
+import static com.genfood.foodgenback.utils.MealUtils.meal1;
+import static com.genfood.foodgenback.utils.MealUtils.meal8;
+import static com.genfood.foodgenback.utils.MealUtils.meal9;
+
 import com.genfood.foodgenback.conf.FacadeIT;
 import com.genfood.foodgenback.endpoint.controller.MealController;
 import com.genfood.foodgenback.endpoint.rest.mapper.MealMapper;
@@ -11,17 +16,13 @@ import com.genfood.foodgenback.service.AuthService;
 import com.genfood.foodgenback.service.MealService;
 import com.genfood.foodgenback.service.RecipeIngredientService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import java.util.List;
-import static com.genfood.foodgenback.utils.MealUtils.MEAL1_ID;
-import static com.genfood.foodgenback.utils.MealUtils.meal1;
-import static com.genfood.foodgenback.utils.MealUtils.meal8;
-import static com.genfood.foodgenback.utils.MealUtils.meal9;
 
 @Testcontainers
 @Slf4j
@@ -68,12 +69,10 @@ public class MealIT extends FacadeIT {
 
   @Test
   void read_meal_ordered() {
-    List<Meal> actual = mealController.getMealsOrdered(PAGE,PAGE_SIZE);
+    List<Meal> actual = mealController.getMealsOrdered(PAGE, PAGE_SIZE);
     Assertions.assertEquals(5, actual.size());
     Assertions.assertEquals(actual.get(0), meal1());
     Assertions.assertEquals(actual.get(1), meal9());
     Assertions.assertEquals(actual.get(2), meal8());
-
   }
-
 }

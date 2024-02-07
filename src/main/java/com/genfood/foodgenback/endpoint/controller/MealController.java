@@ -26,10 +26,12 @@ public class MealController {
             .collect(Collectors.toUnmodifiableList());
     return meals;
   }
+
   @GetMapping("/mealsByRating")
-  public List<Meal> getMealsOrdered(@RequestParam("page") Integer page, @RequestParam("page_size") Integer pageSize){
-    List<Meal> meals = mealService.getMealByRating(page, pageSize).stream()
-            .map(mealMapper::toDto).toList();
+  public List<Meal> getMealsOrdered(
+      @RequestParam("page") Integer page, @RequestParam("page_size") Integer pageSize) {
+    List<Meal> meals =
+        mealService.getMealByRating(page, pageSize).stream().map(mealMapper::toDto).toList();
     return meals;
   }
 
