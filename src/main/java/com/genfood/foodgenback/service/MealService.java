@@ -37,6 +37,11 @@ public class MealService {
     User user = service.whoami(request);
     List<Allergy> allergies = allergyService.findAllergyByUserId(user.getId());
     List<Meal> meals = new ArrayList<>();
+    if(allergies.size() == 0){
+      meals.add(mealRepository.findMealRandomly());
+      meals.add(mealRepository.findMealRandomly());
+      meals.add(mealRepository.findMealRandomly());
+    } else {
     while (meals.size() < 3) {
       boolean badIngredient = false;
       Meal meal = mealRepository.findMealRandomly();
@@ -56,6 +61,7 @@ public class MealService {
       } else {
         badIngredient = false;
       }
+    }
     }
     return meals;
   }

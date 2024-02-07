@@ -46,26 +46,9 @@ public class SecurityConf {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers(GET, "/ping")
-                    .permitAll()
-                    .requestMatchers( "/users/signup")
-                    .permitAll()
-                    .requestMatchers( "/users/login")
-                    .permitAll()
-                    .requestMatchers( "/users/whoami")
-                    .authenticated()
-                    .requestMatchers( "/users/**")
-                    .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers( "/regions")
-                    .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers( "/recipes")
-                    .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers( "/users/**")
-                    .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers("/regions/**")
-                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                auth
                     .anyRequest()
-                    .authenticated())
+                    .permitAll())
         .authenticationManager(authenticationManager)
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
