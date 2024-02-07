@@ -1,6 +1,7 @@
 package com.genfood.foodgenback.security;
 
-
+import static org.springframework.http.HttpMethod.GET;
+import com.genfood.foodgenback.endpoint.rest.model.Role;
 import com.genfood.foodgenback.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,28 @@ public class SecurityConf {
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers(GET, "/ping")
+                    .permitAll()
+                    .requestMatchers("/users/signup")
+                    .permitAll()
+                    .requestMatchers("/users/login")
+                    .permitAll()
+                    .requestMatchers("/users/whoami")
+                    .authenticated()
+                    .requestMatchers("/users/**")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/regions")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/recipes")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/users/**")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/regions/**")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .anyRequest()
+                    .authenticated())
         .authenticationManager(authenticationManager)
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
