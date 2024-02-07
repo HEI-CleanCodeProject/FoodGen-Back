@@ -36,6 +36,7 @@ public class UserUtils {
   public static Auth auth4() {
     return Auth.builder().email(USER4_EMAIL).password(USER4_PASSWORD).build();
   }
+
   public static Auth auth1() {
     return Auth.builder().email(USER1_EMAIL).password(USER1_PASSWORD).build();
   }

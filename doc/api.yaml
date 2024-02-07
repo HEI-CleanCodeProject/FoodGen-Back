@@ -550,8 +550,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-
-
   /allergy:
     get:
       tags:
@@ -573,6 +571,35 @@ paths:
           description: Ressources not found
         '500':
           description: Server error
+    put:
+      tags:
+        - allergy
+      summary: Insert allergies for an user
+      operationId: crupdateAllergies
+      requestBody:
+        description: List of allergies to be crupdated
+        content:
+          application/json:
+            schema:
+              items:
+                - type: string
+                  default: "chicken"
+      responses:
+        '200':
+          description: return a list of crupdated allergies.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Allergy'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /allergy/{user_id}:
     get:
       tags:

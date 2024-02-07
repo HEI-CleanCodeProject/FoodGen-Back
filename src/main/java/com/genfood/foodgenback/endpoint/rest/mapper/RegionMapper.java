@@ -10,8 +10,6 @@ public class RegionMapper {
   }
 
   public com.genfood.foodgenback.repository.model.Region toEntity(Region dto) {
-    return com.genfood.foodgenback.repository.model.Region.builder()
-        .name(dto.getName())
-        .build();
+    return com.genfood.foodgenback.repository.model.Region.builder().id(dto.getId()).name(dto.getName()).build();
   }
 }
