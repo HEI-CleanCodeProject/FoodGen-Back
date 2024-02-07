@@ -1,7 +1,8 @@
 package com.genfood.foodgenback.repository.validator;
 
-import com.genfood.foodgenback.model.User;
 import com.genfood.foodgenback.repository.UserRepository;
+import com.genfood.foodgenback.repository.model.User;
+import com.genfood.foodgenback.repository.model.exception.BadRequestException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,11 @@ public class MailValidator implements Consumer<User> {
 
   @Override
   public void accept(User user) {
-    boolean alreadyExist = userRepository.existsByEmail(user.getEmail());
+    boolean alreadyExist = false;
+    if (userRepository.existsByEmail(user.getEmail())
+        && user.getId().compareTo(userRepository.findByEmail(user.getEmail()).get().getId()) == 1) {
+      alreadyExist = true;
+    }
     Set<String> violationMessages = new HashSet<>();
     if (alreadyExist) {
       violationMessages.add("Mail address already taken,try other");
@@ -29,7 +34,7 @@ public class MailValidator implements Consumer<User> {
     if (!violationMessages.isEmpty()) {
       String formattedViolationMessages =
           violationMessages.stream().map(String::toString).collect(Collectors.joining(""));
-      throw new RuntimeException(formattedViolationMessages);
+      throw new BadRequestException(formattedViolationMessages);
     }
   }
 }

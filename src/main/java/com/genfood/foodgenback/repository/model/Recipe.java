@@ -23,6 +23,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class Recipe {
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
 
   @Column(nullable = false)

@@ -2,6 +2,7 @@ package com.genfood.foodgenback.repository.validator;
 
 import com.genfood.foodgenback.repository.RegionRepository;
 import com.genfood.foodgenback.repository.model.Region;
+import com.genfood.foodgenback.repository.model.exception.BadRequestException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class RegionValidator implements Consumer<Region> {
     if (!violationMessages.isEmpty()) {
       String formattedViolationMessages =
           violationMessages.stream().map(String::toString).collect(Collectors.joining(""));
-      throw new RuntimeException(formattedViolationMessages);
+      throw new BadRequestException(formattedViolationMessages);
     }
   }
 }

@@ -3,7 +3,6 @@ package com.genfood.foodgenback.integration;
 import static com.genfood.foodgenback.utils.RegionUtils.REGION1_ID;
 import static com.genfood.foodgenback.utils.RegionUtils.region1;
 import static com.genfood.foodgenback.utils.RegionUtils.region2;
-import static com.genfood.foodgenback.utils.RegionUtils.region3;
 import static com.genfood.foodgenback.utils.RegionUtils.updatedRegion3;
 
 import com.genfood.foodgenback.conf.FacadeIT;
@@ -49,14 +48,12 @@ public class RegionIT extends FacadeIT {
 
   @Test
   void read_region_by_id() {
-    ;
     Region actual = controller.getRegionById(REGION1_ID);
     Assertions.assertEquals(region1(), actual);
   }
 
   @Test
   void crupdate_regions() {
-    controller.crupdateRegions(List.of(region1(), region2(), region3()));
     controller.crupdateRegions(List.of(updatedRegion3()));
     List<Region> actual = controller.getRegions(PAGE, PAGE_SIZE);
     Assertions.assertEquals(updatedRegion3(), actual.get(2));

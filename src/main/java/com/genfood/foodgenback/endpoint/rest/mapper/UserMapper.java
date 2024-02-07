@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
   private final PasswordEncoder encoder;
 
-  public User toDto(com.genfood.foodgenback.model.User entity) {
+  public User toDto(com.genfood.foodgenback.repository.model.User entity) {
     return User.builder()
         .id(entity.getId())
         .email(entity.getEmail())
@@ -22,9 +22,9 @@ public class UserMapper {
         .build();
   }
 
-  public com.genfood.foodgenback.model.User toEntity(User dto) {
-    return com.genfood.foodgenback.model.User.builder()
-        .id(dto.getId())
+  public com.genfood.foodgenback.repository.model.User toEntity(User dto) {
+    return com.genfood.foodgenback.repository.model.User.builder()
+            .id(dto.getId())
         .lastname(dto.getLastname())
         .firstname(dto.getFirstname())
         .email(dto.getEmail())

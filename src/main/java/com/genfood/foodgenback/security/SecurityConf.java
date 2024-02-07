@@ -1,9 +1,6 @@
 package com.genfood.foodgenback.security;
 
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
-
 import com.genfood.foodgenback.endpoint.rest.model.Role;
 import com.genfood.foodgenback.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -45,15 +42,21 @@ public class SecurityConf {
             auth ->
                 auth.requestMatchers(GET, "/ping")
                     .permitAll()
-                    .requestMatchers(POST, "/users/signup")
+                    .requestMatchers("/users/signup")
                     .permitAll()
-                    .requestMatchers(POST, "/users/login")
+                    .requestMatchers("/users/login")
                     .permitAll()
-                    .requestMatchers(PUT, "/users/**")
+                    .requestMatchers("/users/whoami")
+                    .authenticated()
+                    .requestMatchers("/users/**")
                     .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers(GET, "/users/**")
+                    .requestMatchers("/regions")
                     .hasAnyRole(String.valueOf(Role.ADMIN))
-                    .requestMatchers(GET, "/regions/**")
+                    .requestMatchers("/recipes")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/users/**")
+                    .hasAnyRole(String.valueOf(Role.ADMIN))
+                    .requestMatchers("/regions/**")
                     .hasAnyRole(String.valueOf(Role.ADMIN))
                     .anyRequest()
                     .authenticated())

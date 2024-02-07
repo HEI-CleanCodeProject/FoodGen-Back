@@ -43,7 +43,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/CreateUser'
       responses:
         '200':
           description: return a list crupdated users.
@@ -52,6 +52,27 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  '/users/whoami':
+    get:
+      tags:
+        - User
+      summary: Tell you who you are
+      operationId: whoami
+      responses:
+        '200':
+          description: return the specific user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -196,7 +217,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/Region'
+                $ref: '#/components/schemas/CreateRegion'
       responses:
         '200':
           description: return a list crupdated regions.
@@ -337,7 +358,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/Recipe'
+                $ref: '#/components/schemas/CreateRecipe'
       responses:
         '200':
           description: return a list crupdated recipes.
@@ -363,13 +384,74 @@ paths:
       operationId: getMeals
       responses:
         '200':
-          description: return a list of meals
+          description: return a list of 3 random generated meals
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Meal'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  '/mealsByRating':
+    get:
+      tags:
+        - Meal
+      summary: Get a list of meals based on number of downloads
+      operationId: getMealsByRating
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Page'
+        - name: page_size
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/PageSize'
+      responses:
+        '200':
+          description: return a list of  meals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  '/meal/{id}':
+    get:
+      tags:
+        - Meal
+      summary: Get a meal by id
+      operationId: getMealById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return a meal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meal'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -451,7 +533,7 @@ paths:
           application/json:
             schema:
               items:
-                $ref: '#/components/schemas/Ingredient'
+                $ref: '#/components/schemas/CreateIngredient'
       responses:
         '200':
           description: return a list crupdated ingredients.
@@ -468,14 +550,68 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-
-
   /allergy:
     get:
       tags:
         - allergy
       summary: Get user allergy
       operationId: getAllergy
+      responses:
+        '200':
+          description: List of Allergy
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Allergy'
+        '400':
+          description: Error when sending the request
+        '404':
+          description: Ressources not found
+        '500':
+          description: Server error
+    put:
+      tags:
+        - allergy
+      summary: Insert allergies for an user
+      operationId: crupdateAllergies
+      requestBody:
+        description: List of allergies to be crupdated
+        content:
+          application/json:
+            schema:
+              items:
+                - type: string
+                  default: "chicken"
+      responses:
+        '200':
+          description: return a list of crupdated allergies.
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Allergy'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /allergy/{user_id}:
+    get:
+      tags:
+        - allergy
+      summary: Get allergy by user
+      operationId: getAllergyByUser
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: List of Allergy
@@ -518,14 +654,11 @@ components:
           schema:
             $ref: '#/components/schemas/InternalServerException'
   schemas:
-    User:
+    CreateUser:
       allOf:
         - $ref: '#/components/schemas/Auth'
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
         first_name:
           type: string
           example: "Rio"
@@ -537,6 +670,14 @@ components:
           example: rio@email.com
         password:
           type: string
+    User:
+      allOf:
+        - $ref: '#/components/schemas/CreateUser'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
     Auth:
       type: object
       properties:
@@ -544,36 +685,51 @@ components:
           type: string
         password:
           type: string
-    Region:
+    CreateRegion:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
         name:
           type: string
           example: Italy
-    Recipe:
+    Region:
+      allOf:
+        - $ref: '#/components/schemas/CreateRegion'
       type: object
       properties:
         id:
           type: string
           format: uuid
+    CreateRecipe:
+      type: object
+      properties:
         name:
           type: string
           example: Pizza
         readme:
           type: string
           example: Bunch of text
-    Ingredient:
+    Recipe:
+      allOf:
+        - $ref: '#/components/schemas/CreateRecipe'
       type: object
       properties:
         id:
           type: string
           format: uuid
+    CreateIngredient:
+      type: object
+      properties:
         name:
           type: string
           example: Tomato
+    Ingredient:
+      allOf:
+        - $ref: '#/components/schemas/CreateIngredient'
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
     Allergy:
       type: object
       properties:
