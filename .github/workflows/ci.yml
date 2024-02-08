@@ -8,10 +8,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    env:
+      DB_URL:  ${{ secrets.DB_URL }}
+      DB_USERNAME:  ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      TOKEN_SIGN: ${{ secrets.TOKEN_SIGN }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -23,6 +24,9 @@ jobs:
         maven-version: 3.9.6
     - name: Build with Maven
       run: mvn -B clean package
+
+    - run: chmod +x format.sh
+    - run: ./format.sh && git diff --exit-code
 
 
   
